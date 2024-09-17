@@ -30,9 +30,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
+                        .requestMatchers(Constants.ENPOINTS_USER_HEALTHCHECK).permitAll()
                         .requestMatchers(Constants.ENPOINTS_USER_LOGIN).permitAll()
                         .requestMatchers(Constants.ENPOINTS_USER_REGISTER).permitAll()
-                        .requestMatchers(Constants.ENPOINTS_USER).hasAnyAuthority(Role.USER.name())
+                        .requestMatchers(Constants.ENPOINTS_USER + "/**").hasAnyAuthority(Role.USER.name())
                         .anyRequest().authenticated())
                 .sessionManagement(manager ->
                         manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
