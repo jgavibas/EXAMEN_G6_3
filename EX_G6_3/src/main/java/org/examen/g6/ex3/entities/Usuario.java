@@ -23,7 +23,7 @@ public class Usuario implements UserDetails {
         this.isEnabled = true;
     }
 
-    public Usuario(String nombres, String apellidos, String email, String password, String tipoDoc, String numDoc) {
+    public Usuario(String nombres, String apellidos, String email, String password, String tipoDoc, String numDoc, String digitoVerificador) {
         this.id = (long) 0;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -31,6 +31,7 @@ public class Usuario implements UserDetails {
         this.password = password;
         this.tipoDoc = tipoDoc;
         this.numDoc = numDoc;
+        this.digitoVerificador = digitoVerificador;
         this.isAccountNonExpired = true;
         this.isAccountNonLocked = true;
         this.isCredentialsNonExpired = true;
@@ -59,6 +60,7 @@ public class Usuario implements UserDetails {
     private String email;
     private String password;
     private String tipoDoc;
+    private String digitoVerificador;
     private String numDoc;
     private Boolean isAccountNonExpired;
     private Boolean isAccountNonLocked;
