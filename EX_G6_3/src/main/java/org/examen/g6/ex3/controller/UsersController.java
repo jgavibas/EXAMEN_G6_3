@@ -39,7 +39,6 @@ public class UsersController {
         UsuarioResponse response = usuarioService.buscarDatosReniec(usuarioRequest.getNumDoc());
 
         if(response.getCode().equals(Constants.OK_DNI_CODE)){
-            //return new ResponseEntity<>(response, HttpStatus.CREATED);
             Optional<ReniecResponse> data = response.getData();
 
 
