@@ -6,6 +6,7 @@ import org.examen.g6.ex3.entities.Usuario;
 import org.examen.g6.ex3.redis.RedisService;
 import org.examen.g6.ex3.repository.RolRepository;
 import org.examen.g6.ex3.repository.UsuarioRepository;
+import org.examen.g6.ex3.service.AuthService;
 import org.examen.g6.ex3.service.UsuarioService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,34 +19,30 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.examen.g6.ex3.aggregates.constants.Constants;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 class UsuarioServiceImplTest {
 
-    @Mock
-    private UsuarioRepository usuarioRepository;
-    @Mock
-    private RolRepository rolRepository;
-    @Mock
-    private ReniecClient reniecClient;
-    @Mock
-    private RedisService redisService;
+    @Autowired
+    private UsuarioService service;
 
-    @InjectMocks
-    private UsuarioServiceImpl service;
+    @Autowired
+    private AuthService serviceAuth;
 
     @BeforeEach
     void setUp(){
-        MockitoAnnotations.initMocks(this);
-        service = new UsuarioServiceImpl(usuarioRepository, rolRepository, reniecClient, redisService);
+
     }
 
 
     @Test
     void update() {
-        Long id = (long) 20;
+        Long id = (long) 21;
         Usuario usuario = new Usuario(id, "xxxx", "xxxx", "70840118x@mail.com", "70840118x", "70840118", "1");
 
-        Optional<Usuario> response = service.update(id, usuario);
+        Optional<Usuario> response = this.service.update(id, usuario);
 
         assertTrue(response.isPresent());
 
@@ -113,6 +110,20 @@ class UsuarioServiceImplTest {
 
         UsuarioResponse response = service.buscarDatosReniec(numDoc);
 
+        assertTrue(response.getData().isPresent());
         assertEquals(Constants.OK_DNI_CODE, response.getCode());
     }
+
+
+    @Test
+    void login() {
+        String email = "usuario03@mail.com";
+        String password = "@123AbC";
+
+
+        String response = this.serviceAuth.login(email, password);
+
+        assertFalse(response.isEmpty());
+    }
+
 }
